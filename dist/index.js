@@ -8480,7 +8480,6 @@ function getDirectories( path ) {
 }
 
 try {
-  const nameToGreet = core.getInput( 'who-to-greet' );
   const packageDir = core.getInput( 'package-dir' );
   const tagJson = JSON.parse( core.getInput( 'tag-json' ) );
   const imageName = core.getInput( 'image-name' );
@@ -8489,7 +8488,7 @@ try {
   console.log( nameToGreet );
   console.log( packageDir );
   console.log( tagJson.tags );
-  const tagArray = tagJson.tags.map( tags => tags.replace( `${imageName}`, '' ) );
+  const tagArray = tagJson.tags.map( tags => tags.replace( `${imageName}:`, '' ) );
   tagArray.push( 'latest' )
   const projectNames = getDirectories( packageDir );
   const dockerCommands = [];

@@ -5,10 +5,6 @@ inputs:
     description: 'The username from dockerhub'
     required: true
     default: 'deploymyestino'
-  who-to-greet: # id of input
-    description: 'Who to greet'
-    required: true
-    default: 'World'
   image-name:
     description: 'Image name that is given into docker/metadata-action@v3'
     required: true
