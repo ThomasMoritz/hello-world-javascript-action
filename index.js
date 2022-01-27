@@ -15,7 +15,6 @@ try {
   const imageName = core.getInput( 'image-name' );
   const dockerhubUsername = core.getInput( 'dockerhub-username' );
 
-  console.log( nameToGreet );
   console.log( packageDir );
   console.log( tagJson.tags );
   const tagArray = tagJson.tags.map( tags => tags.replace( `${imageName}:`, '' ) );
