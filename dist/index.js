@@ -9794,7 +9794,7 @@ try {
 
     for ( let dockerCommand of dockerCommands ) {
       await exec
-        .getExecOutput( 'dockerCommand', [], {
+        .getExecOutput( dockerCommand, [], {
           ignoreReturnCode: true
         } )
         .then( res => {
