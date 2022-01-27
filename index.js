@@ -13,8 +13,8 @@ try {
   const nameToGreet = core.getInput( 'who-to-greet' );
   const packageDir = core.getInput( 'package-dir' );
   const tagJson = JSON.parse( core.getInput( 'tag-json' ) );
-  const imageName = JSON.parse( core.getInput( 'image-name' ) );
-  const dockerhubUsername = JSON.parse( core.getInput( 'dockerhub-username' ) );
+  const imageName = core.getInput( 'image-name' );
+  const dockerhubUsername = core.getInput( 'dockerhub-username' );
 
   console.log( nameToGreet );
   console.log( packageDir );
