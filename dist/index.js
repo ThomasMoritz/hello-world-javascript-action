@@ -8468,29 +8468,46 @@ module.exports = JSON.parse('[[[0,44],"disallowed_STD3_valid"],[[45,46],"valid"]
 var __webpack_exports__ = {};
 // This entry need to be wrapped in an IIFE because it need to be isolated against other modules in the chunk.
 (() => {
-const core = __nccwpck_require__(1243);
-const github = __nccwpck_require__(3599);
-const directory = './';
-const fs = __nccwpck_require__(7147);
+const core = __nccwpck_require__( 1243 );
+const github = __nccwpck_require__( 3599 );
+const fs = __nccwpck_require__( 7147 );
+const { readdirSync } = __nccwpck_require__( 7147 )
 
+function getDirectories( path ) {
+  return fs.readdirSync( path ).filter( function( file ) {
+    return fs.statSync( path + '/' + file ).isDirectory();
+  } );
+}
 
 try {
-  // `who-to-greet` input defined in action metadata file
-  fs.readdir(directory, (err, files) => {
-    files.forEach(file => {
-      console.log(file);
-    });
-  });
+  const nameToGreet = core.getInput( 'who-to-greet' );
+  const packageDir = core.getInput( 'package-dir' );
+  const tagJson = JSON.parse( core.getInput( 'tag-json' ) );
+  const imageName = JSON.parse( core.getInput( 'image-name' ) );
+  const dockerhubUsername = JSON.parse( core.getInput( 'dockerhub-username' ) );
 
-  const nameToGreet = core.getInput('who-to-greet');
-  console.log(JSON.parse(nameToGreet));
+  console.log( nameToGreet );
+  console.log( packageDir );
+  console.log( tagJson.tags );
+  const tagArray = tagJson.tags.map( tags => tags.replace( `${imageName}`, '' ) );
+  tagArray.push( 'latest' )
+  const projectNames = getDirectories( packageDir );
+  const dockerCommands = [];
+  projectNames.forEach( projectName => {
+    const imageTags = tagArray.map( tag => `${dockerhubUsername}/${projectName}:${tag}` )
+    const dockerBuildString = `docker build -f ${packageDir}/${projectName}/Dockerfile . -t ${imageTags.join( '  -t ' )}`
+    const dockerPushString = `docker push -a ${dockerhubUsername}/${projectName}`
+    dockerCommands.push( dockerBuildString );
+    dockerCommands.push( dockerPushString );
+  } );
+  console.log( dockerCommands );
   const time = (new Date()).toTimeString();
-  core.setOutput("time", time);
+  core.setOutput( "time", time );
   // Get the JSON webhook payload for the event that triggered the workflow
   // const payload = JSON.stringify(github.context.payload, undefined, 2)
   // console.log(`The event payload: ${payload}`);
-} catch (error) {
-  core.setFailed(error.message);
+} catch ( error ) {
+  core.setFailed( error.message );
 }
 
 })();

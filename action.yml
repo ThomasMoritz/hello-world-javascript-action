@@ -1,10 +1,24 @@
 name: 'Hello World'
 description: 'Greet someone and record the time'
 inputs:
+  dockerhub-username: # id of input
+    description: 'The username from dockerhub'
+    required: true
+    default: 'deploymyestino'
   who-to-greet: # id of input
     description: 'Who to greet'
     required: true
     default: 'World'
+  image-name:
+    description: 'Image name that is given into docker/metadata-action@v3'
+    required: true
+  package-dir:
+    description: 'The directory with the NX Projects including Dockerfiles'
+    required: true
+    default: './packages'
+  tag-json:
+    description: 'JSON output from docker/metadata-action@v3'
+    required: true
 outputs:
   time: # id of output
     description: 'The time we greeted you'
